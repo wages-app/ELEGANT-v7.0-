@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>نظام الأجور - GO v7.0 ELEGANT</title>
+    <title>نظام الأجور - GO v7.3 MULTI-DOCS</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -23,13 +23,14 @@
             --orange: #f59e0b;
             --orange-light: #fbbf24;
             --pink: #ec4899;
+            --whatsapp: #25D366;
+            --email: #EA4335;
             --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --border: rgba(148, 163, 184, 0.1);
             --border-light: rgba(148, 163, 184, 0.2);
             --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.2);
             --shadow-glow: 0 0 30px rgba(6, 182, 212, 0.3);
             --radius: 16px;
             --radius-sm: 12px;
@@ -60,7 +61,6 @@
             margin: 16px 0 20px;
             font-size: 2em;
             font-weight: 900;
-            letter-spacing: -0.5px;
         }
         
         .tag {
@@ -86,21 +86,10 @@
             transition: all 0.3s ease;
         }
         
-        .card:hover {
-            border-color: var(--border-light);
-            box-shadow: var(--shadow), 0 0 40px rgba(6, 182, 212, 0.1);
-        }
-        
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
         @media (max-width: 480px) { .grid { grid-template-columns: 1fr 1fr; } }
         
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.85em;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
+        label { display: block; margin-bottom: 6px; font-size: 0.85em; color: var(--text-secondary); font-weight: 500; }
         
         input, textarea, select {
             width: 100%;
@@ -121,7 +110,6 @@
             border-color: var(--accent);
             outline: none;
             box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15), 0 0 20px rgba(6, 182, 212, 0.2);
-            background: rgba(15, 23, 42, 0.95);
         }
         
         textarea { min-height: 60px; resize: vertical; }
@@ -148,39 +136,18 @@
             font-size: 0.9em;
             transition: all 0.3s ease;
             color: var(--text-secondary);
-            position: relative;
-            overflow: hidden;
         }
         
-        .tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, var(--accent), var(--purple));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 0;
-        }
-        
-        .tab.active::before { opacity: 1; }
         .tab.active {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
             color: #fff;
             box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
-            transform: translateY(-2px);
         }
-        
-        .tab span { position: relative; z-index: 1; }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         .section-header {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15));
@@ -191,22 +158,11 @@
             text-align: center;
         }
         
-        .section-header h3 {
-            color: var(--green-light);
-            font-size: 1.15em;
-            font-weight: 700;
-        }
+        .section-header h3 { color: var(--green-light); font-size: 1.15em; font-weight: 700; }
         
         .search-box { position: relative; margin-bottom: 14px; }
         .search-box input { padding-right: 45px; }
-        .search-icon {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 1.2em;
-        }
+        .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.2em; }
         
         .btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
         
@@ -223,24 +179,8 @@
             touch-action: manipulation;
             transition: all 0.3s ease;
             font-family: 'Tajawal', inherit;
-            position: relative;
-            overflow: hidden;
         }
         
-        button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        button:active::before { width: 300px; height: 300px; }
         button:active { transform: scale(0.97); }
         
         .btn-save { background: linear-gradient(135deg, var(--green), var(--green-light)); color: #000; }
@@ -250,6 +190,9 @@
         .btn-modify { background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: #000; }
         .btn-danger { background: linear-gradient(135deg, var(--red), var(--red-light)); }
         .btn-success { background: linear-gradient(135deg, var(--green), var(--green-light)); color: #000; }
+        .btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+        .btn-email { background: linear-gradient(135deg, #EA4335, #c5221f); }
+        .btn-download { background: linear-gradient(135deg, #475569, #64748b); }
         
         .toast {
             position: fixed;
@@ -271,7 +214,7 @@
             box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
         }
         
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.show { opacity: 1; }
         .toast.err { background: linear-gradient(135deg, var(--red), var(--red-light)); color: #fff; }
         
         .stats-bar {
@@ -283,19 +226,13 @@
             text-align: center;
             font-size: 0.95em;
             font-weight: 500;
-            backdrop-filter: blur(10px);
         }
         
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            font-weight: 700;
-            margin-right: 5px;
-        }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 700; }
         .badge-green { background: var(--green); color: #000; }
         .badge-red { background: var(--red); color: #fff; }
+        .badge-blue { background: var(--accent); color: #000; }
+        .badge-purple { background: var(--purple); color: #fff; }
         
         .modal {
             display: none;
@@ -314,14 +251,12 @@
             padding: 24px;
             border-radius: var(--radius);
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             border: 1px solid var(--border-light);
-            backdrop-filter: blur(20px);
         }
         .modal-content h3 { color: var(--accent-light); margin-bottom: 16px; text-align: center; font-weight: 700; }
-        .modal-content img { max-width: 100%; border-radius: var(--radius-sm); margin-top: 12px; }
         
         .dr-badge {
             position: fixed;
@@ -337,11 +272,7 @@
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
         }
         
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-        }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); }
         .empty-state .icon { font-size: 3.5em; margin-bottom: 12px; opacity: 0.5; }
         
         .org-time-card {
@@ -351,9 +282,7 @@
             padding: 14px;
             margin-bottom: 12px;
             border-right: 4px solid var(--accent);
-            transition: all 0.3s ease;
         }
-        .org-time-card:hover { border-color: var(--border-light); }
         .org-time-card .org-name { font-weight: 700; color: var(--accent-light); margin-bottom: 12px; font-size: 1.1em; }
         .org-time-card .time-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
         .org-time-card .time-grid label { font-size: 0.7em; }
@@ -366,7 +295,6 @@
             text-align: center;
             color: var(--green-light);
             font-weight: 700;
-            font-size: 0.95em;
         }
         @media (max-width: 600px) { .org-time-card .time-grid { grid-template-columns: 1fr 1fr; } }
         
@@ -392,30 +320,20 @@
             align-items: center;
             gap: 12px;
         }
-        .selectable-item:hover { border-color: var(--border-light); }
         .selectable-item.selected {
             border-color: var(--green);
             background: rgba(16, 185, 129, 0.15);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
         }
         .selectable-item .checkbox {
-            width: 26px;
-            height: 26px;
+            width: 26px; height: 26px;
             border: 2px solid var(--border);
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
         }
-        .selectable-item.selected .checkbox {
-            background: var(--green);
-            border-color: var(--green);
-        }
-        .selectable-item.selected .checkbox::after { content: '✓'; color: #fff; font-weight: bold; font-size: 1.1em; }
+        .selectable-item.selected .checkbox { background: var(--green); border-color: var(--green); }
+        .selectable-item.selected .checkbox::after { content: '✓'; color: #fff; font-weight: bold; }
         .selectable-item .info { flex: 1; }
-        .selectable-item .name { font-weight: 700; color: var(--accent-light); font-size: 1.05em; }
+        .selectable-item .name { font-weight: 700; color: var(--accent-light); }
         .selectable-item .details { font-size: 0.85em; color: var(--text-secondary); margin-top: 2px; }
         
         .selected-organizers {
@@ -458,22 +376,17 @@
             border-radius: var(--radius-sm);
             padding: 16px;
             margin-bottom: 12px;
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
         .day-card::before {
             content: '';
             position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
+            right: 0; top: 0; bottom: 0;
             width: 4px;
             background: var(--red);
-            transition: all 0.3s ease;
         }
         .day-card.paid::before { background: var(--green); }
-        .day-card:hover { border-color: var(--border-light); transform: translateX(-2px); }
         .day-card.editing { border-color: var(--accent); box-shadow: 0 0 25px rgba(6, 182, 212, 0.3); }
         
         .day-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
@@ -495,20 +408,13 @@
             padding: 14px;
             margin-top: 12px;
             display: none;
-            animation: slideDown 0.4s ease;
         }
-        .inline-edit.show { display: block; }
+        .inline-edit.show { display: block; animation: slideDown 0.4s ease; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
         .inline-edit .edit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         .inline-edit label { font-size: 0.8em; margin-bottom: 4px; }
         .inline-edit input, .inline-edit select { padding: 10px; font-size: 14px; }
         .inline-edit .edit-actions { display: flex; gap: 10px; margin-top: 12px; }
-        
-        @keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
-        }
-        .confetti { position: fixed; width: 10px; height: 10px; pointer-events: none; z-index: 9999; }
         
         .summary-selector {
             background: rgba(139, 92, 246, 0.1);
@@ -519,8 +425,6 @@
         }
         .summary-selector label { color: var(--purple-light); font-weight: 700; }
         
-        .summary-result { animation: fadeIn 0.5s ease; }
-        
         .summary-card {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
             border: 1px solid var(--green);
@@ -529,20 +433,14 @@
             margin-bottom: 16px;
         }
         .summary-card h4 { color: var(--green-light); margin-bottom: 16px; font-weight: 700; font-size: 1.2em; }
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 12px;
-        }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
         .summary-item {
             background: rgba(15, 23, 42, 0.8);
             padding: 14px;
             border-radius: var(--radius-sm);
             text-align: center;
-            transition: all 0.3s ease;
             border: 1px solid var(--border);
         }
-        .summary-item:hover { transform: translateY(-3px); border-color: var(--border-light); }
         .summary-item .value { font-size: 1.5em; font-weight: 900; color: var(--accent-light); }
         .summary-item .label { font-size: 0.8em; color: var(--text-secondary); margin-top: 6px; font-weight: 500; }
         
@@ -556,27 +454,209 @@
         }
         .summary-placeholder .icon { font-size: 5em; margin-bottom: 20px; opacity: 0.3; }
         .summary-placeholder .text { font-size: 1.2em; margin-bottom: 10px; font-weight: 500; }
-        .summary-placeholder .hint { font-size: 0.9em; color: var(--text-muted); }
+        .summary-placeholder .hint { font-size: 0.9em; }
+
+        /* ✅ أنماط معرض الصور (Documents Gallery) */
+        .docs-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .doc-thumb {
+            position: relative;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            background: rgba(15, 23, 42, 0.8);
+        }
+        
+        .doc-thumb:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .doc-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .doc-thumb .doc-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 8px 4px;
+            display: flex;
+            gap: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .doc-thumb:hover .doc-actions { opacity: 1; }
+        
+        .doc-thumb .doc-actions button {
+            flex: 1;
+            padding: 4px;
+            font-size: 0.7em;
+            min-width: auto;
+            border-radius: 4px;
+        }
+        
+        .doc-thumb .doc-number {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--accent);
+            color: #000;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
+            font-weight: 700;
+        }
+        
+        .doc-thumb .delete-doc {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: var(--red);
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .upload-zone {
+            border: 2px dashed var(--accent);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            background: rgba(6, 182, 212, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+        
+        .upload-zone:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--accent-light);
+        }
+        
+        .upload-zone .icon { font-size: 2.5em; margin-bottom: 8px; }
+        .upload-zone .text { color: var(--accent-light); font-weight: 700; }
+        .upload-zone .hint { color: var(--text-muted); font-size: 0.85em; margin-top: 5px; }
+        
+        .share-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        @media (max-width: 480px) { .share-buttons-grid { grid-template-columns: 1fr; } }
+        
+        .share-btn {
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', inherit;
+            color: #fff;
+        }
+        .share-btn:active { transform: scale(0.97); }
+        .share-btn .icon { font-size: 1.3em; }
+        
+        .share-hint {
+            text-align: center;
+            padding: 10px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius-xs);
+            margin-top: 10px;
+            color: var(--accent-light);
+            font-size: 0.85em;
+        }
+        
+        .docs-counter {
+            display: inline-block;
+            background: var(--purple);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            margin-right: 5px;
+            font-weight: 700;
+        }
+        
+        .image-viewer {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-viewer.show { display: flex; }
+        .image-viewer img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-sm);
+        }
+        .image-viewer .close-viewer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>نظام الأجور <span class="tag">ELEGANT v7.0</span></h1>
+    <h1>نظام الأجور <span class="tag">MULTI-DOCS v7.3</span></h1>
     
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('organizers')"><span>👥 المنظمين</span></div>
+        <div class="tab active" onclick="switchTab('organizers')"><span> المنظمين</span></div>
         <div class="tab" onclick="switchTab('work')"><span>💼 العمل</span></div>
         <div class="tab" onclick="switchTab('invoices')"><span>📄 الفواتير</span></div>
         <div class="tab" onclick="switchTab('payments')"><span>💰 المدفوعات</span></div>
         <div class="tab" onclick="switchTab('summary')"><span>📊 الملخص</span></div>
     </div>
     
-    <div class="stats-bar" id="statsBar">📊 جاري التحميل...</div>
+    <div class="stats-bar" id="statsBar"> جاري التحميل...</div>
     
-    <!-- ============================================ -->
-    <!-- القسم الأول: إدارة المنظمين -->
-    <!-- ============================================ -->
+    <!-- القسم الأول: المنظمين -->
     <div id="tab-organizers" class="tab-content active">
         <div class="card">
             <div class="section-header"><h3>➕ إضافة منظم سير جديد</h3></div>
@@ -585,8 +665,21 @@
                 <div><label>🏠 مكان السكن</label><input type="text" id="orgCity" list="cityList" placeholder="Amsterdam"><datalist id="cityList"></datalist></div>
                 <div><label>🏛️ البلدية</label><input type="text" id="orgMunicipality" list="municipalityList" placeholder="Amsterdam"><datalist id="municipalityList"></datalist></div>
                 <div style="grid-column:1/-1;"><label>📱 رقم الهاتف</label><input type="tel" id="orgPhone" placeholder="0612345678" style="direction:ltr;"></div>
-                <div style="grid-column:1/-1;"><label>🆔 صورة البطاقة</label><input type="file" id="orgCard" accept="image/*" onchange="previewCard(this)"><img id="cardPreview" style="max-width:100%;margin-top:12px;border-radius:var(--radius-sm);display:none;"></div>
-                <div style="grid-column:1/-1;"><label> ملاحظات</label><textarea id="orgNotes" placeholder="ملاحظات إضافية..."></textarea></div>
+                <div style="grid-column:1/-1;"><label>📧 البريد الإلكتروني</label><input type="email" id="orgEmail" placeholder="example@email.com" style="direction:ltr;"></div>
+                
+                <!-- ✅ منطقة رفع الوثائق المتعددة -->
+                <div style="grid-column:1/-1;">
+                    <label>📁 وثائق المنظم (يمكن رفع عدة صور)</label>
+                    <div class="upload-zone" onclick="document.getElementById('orgDocs').click()">
+                        <div class="icon">📤</div>
+                        <div class="text">اضغط لرفع الوثائق</div>
+                        <div class="hint">يمكنك اختيار عدة صور دفعة واحدة (بطاقة، جواز، رخصة، إلخ)</div>
+                    </div>
+                    <input type="file" id="orgDocs" accept="image/*" multiple onchange="previewDocs(this)" style="display:none;">
+                    <div id="docsPreview" class="docs-gallery"></div>
+                </div>
+                
+                <div style="grid-column:1/-1;"><label>📝 ملاحظات</label><textarea id="orgNotes" placeholder="ملاحظات إضافية..."></textarea></div>
             </div>
             <div class="btns">
                 <button class="btn-save" onclick="saveOrganizer()">💾 حفظ المنظم</button>
@@ -595,7 +688,7 @@
         </div>
         
         <div class="card">
-            <div class="section-header"><h3>🔍 البحث بالمنطقة / البلدية</h3></div>
+            <div class="section-header"><h3> البحث بالمنطقة / البلدية</h3></div>
             <div class="search-box">
                 <span class="search-icon">🔍</span>
                 <input type="text" id="regionSearch" placeholder="ابحث بالاسم، المدينة، أو البلدية..." oninput="searchOrganizers()">
@@ -605,7 +698,7 @@
         
         <div class="card">
             <div class="section-header"><h3>📋 قائمة المنظمين (<span id="orgCount">0</span>)</h3></div>
-            <button id="showOrgListBtn" onclick="toggleOrgList()" style="width:100%;padding:16px;border:2px dashed var(--accent);border-radius:var(--radius-sm);background:rgba(6,182,212,0.05);color:var(--accent);font-weight:700;font-size:1em;cursor:pointer;transition:all 0.3s;">
+            <button id="showOrgListBtn" onclick="toggleOrgList()" style="width:100%;padding:16px;border:2px dashed var(--accent);border-radius:var(--radius-sm);background:rgba(6,182,212,0.05);color:var(--accent);font-weight:700;font-size:1em;cursor:pointer;">
                 👥 عرض قائمة المنظمين
             </button>
             <div id="organizersListReveal" style="display:none;margin-top:14px;">
@@ -614,14 +707,12 @@
         </div>
     </div>
     
-    <!-- ============================================ -->
-    <!-- القسم الثاني: إدخال العمل -->
-    <!-- ============================================ -->
+    <!-- القسم الثاني: العمل -->
     <div id="tab-work" class="tab-content">
         <div class="card">
             <div class="section-header"><h3> بيانات العمل اليومية</h3></div>
             <div class="grid">
-                <div style="grid-column:1/-1;"><label> صاحب العمل</label><input type="text" id="workEmployer" list="employerList" placeholder="Holland Traffic Control"><datalist id="employerList"></datalist><div class="default-employer-hint">💡 الافتراضي: Holland Traffic Control</div></div>
+                <div style="grid-column:1/-1;"><label>🏢 صاحب العمل</label><input type="text" id="workEmployer" list="employerList" placeholder="Holland Traffic Control"><datalist id="employerList"></datalist><div class="default-employer-hint"> الافتراضي: Holland Traffic Control</div></div>
                 <div><label>📅 التاريخ</label><input type="date" id="workDate"></div>
                 <div><label> مكان العمل</label><input type="text" id="workLocation" list="locationList"><datalist id="locationList"></datalist></div>
                 <div style="grid-column:1/-1;"><label>📝 ملاحظات</label><textarea id="workNotes"></textarea></div>
@@ -631,7 +722,7 @@
         <div class="card">
             <div class="section-header"><h3>🌍 اختيار منطقة المنظمين</h3></div>
             <div class="region-selector">
-                <label>🏙️ اختر المنطقة:</label>
+                <label>️ اختر المنطقة:</label>
                 <select id="regionFilter" onchange="filterByRegion()"><option value="">-- اختر منطقة --</option></select>
                 <input type="text" id="orgSearchWork" placeholder="🔍 أو ابحث بالاسم..." oninput="filterOrganizersForWork()" style="margin-top:10px;">
             </div>
@@ -650,18 +741,16 @@
             <div class="live-box">
                 💵 الإجمالي: <span id="workTotal">€0.00</span>
                 <small id="workDetail">أدخل البيانات واختر المنظمين</small>
-                <small id="workHours" style="color:var(--accent-light);">️ الساعات الكلية: 0</small>
+                <small id="workHours" style="color:var(--accent-light);">⏱️ الساعات الكلية: 0</small>
             </div>
-            <div class="btns"><button class="btn-primary" onclick="saveWorkEntry()">💾 حفظ يوم العمل</button></div>
+            <div class="btns"><button class="btn-primary" onclick="saveWorkEntry()"> حفظ يوم العمل</button></div>
         </div>
     </div>
     
-    <!-- ============================================ -->
     <!-- القسم الثالث: الفواتير -->
-    <!-- ============================================ -->
     <div id="tab-invoices" class="tab-content">
         <div class="card">
-            <div class="section-header"><h3>🇳 إنشاء فاتورة</h3></div>
+            <div class="section-header"><h3>🇳🇱 إنشاء فاتورة</h3></div>
             <div style="margin-bottom:14px;"><label>🏢 Werkgever:</label><select id="invEmployer"><option value="all">Alle Werkgevers</option></select></div>
             <div style="margin-bottom:14px;">
                 <label>👤 البحث عن Verkeersregelaar:</label>
@@ -677,12 +766,12 @@
                 <div><label>Van:</label><input type="date" id="invFrom"></div>
                 <div><label>Tot:</label><input type="date" id="invTo"></div>
             </div>
-            <button class="btn-pdf" style="width:100%;margin-top:16px;" onclick="generateInvoice()">📥 PDF Factuur</button>
+            <button class="btn-pdf" style="width:100%;margin-top:16px;" onclick="generateInvoice()"> PDF Factuur</button>
         </div>
         <div class="card">
-            <h3 style="color:var(--green-light);margin-bottom:12px;font-weight:700;">💾 النسخ الاحتياطي</h3>
+            <h3 style="color:var(--green-light);margin-bottom:12px;font-weight:700;"> النسخ الاحتياطي</h3>
             <div class="btns">
-                <button class="btn-save" onclick="exportAllData()">📤 تصدير</button>
+                <button class="btn-save" onclick="exportAllData()"> تصدير</button>
                 <button class="btn-util" onclick="document.getElementById('importFile').click()">📥 استيراد</button>
                 <button class="btn-util" onclick="clearAllData()">🗑️ مسح</button>
             </div>
@@ -690,14 +779,12 @@
         </div>
     </div>
     
-    <!-- ============================================ -->
-    <!-- القسم الرابع: المدفوعات الذكية -->
-    <!-- ============================================ -->
+    <!-- القسم الرابع: المدفوعات -->
     <div id="tab-payments" class="tab-content">
         <div class="card">
-            <div class="section-header"><h3> اختر المنظم لعرض أيامه</h3></div>
+            <div class="section-header"><h3>👤 اختر المنظم لعرض أيامه</h3></div>
             <div class="search-box">
-                <span class="search-icon"></span>
+                <span class="search-icon">🔍</span>
                 <input type="text" id="paySearch" placeholder="ابحث عن منظم..." oninput="filterPaymentOrganizers()">
             </div>
             <div id="paymentOrganizerList"></div>
@@ -705,53 +792,35 @@
         
         <div id="organizerDaysSection" style="display:none;">
             <div class="card">
-                <div class="section-header">
-                    <h3 id="selectedOrgTitle">📅 أيام العمل</h3>
-                </div>
-                
+                <div class="section-header"><h3 id="selectedOrgTitle"> أيام العمل</h3></div>
                 <div style="background:rgba(15,23,42,0.6);padding:14px;border-radius:var(--radius-sm);margin-bottom:16px;border:1px solid var(--border);">
-                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
-                        <span>📊 إجمالي الأيام:</span>
-                        <span id="orgTotalDays" style="color:var(--accent-light);font-weight:700;">0</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
-                        <span>✅ مدفوع:</span>
-                        <span id="orgPaidDays" style="color:var(--green-light);font-weight:700;">0</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;">
-                        <span>⚠️ غير مدفوع:</span>
-                        <span id="orgUnpaidDays" style="color:var(--orange-light);font-weight:700;">0</span>
-                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span>📊 إجمالي الأيام:</span><span id="orgTotalDays" style="color:var(--accent-light);font-weight:700;">0</span></div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span>✅ مدفوع:</span><span id="orgPaidDays" style="color:var(--green-light);font-weight:700;">0</span></div>
+                    <div style="display:flex;justify-content:space-between;"><span>⚠️ غير مدفوع:</span><span id="orgUnpaidDays" style="color:var(--orange-light);font-weight:700;">0</span></div>
                 </div>
-                
                 <div style="display:flex;gap:10px;margin-bottom:14px;">
                     <button class="btn-util" onclick="filterDays('all')" style="flex:1;">الكل</button>
                     <button class="btn-danger" onclick="filterDays('unpaid')" style="flex:1;">غير مدفوع</button>
                     <button class="btn-success" onclick="filterDays('paid')" style="flex:1;">مدفوع</button>
                 </div>
-                
                 <div id="organizerDaysList"></div>
             </div>
         </div>
     </div>
     
-    <!-- ============================================ -->
-    <!-- القسم الخامس: الملخص الذكي -->
-    <!-- ============================================ -->
+    <!-- القسم الخامس: الملخص -->
     <div id="tab-summary" class="tab-content">
         <div class="card">
-            <div class="section-header"><h3> الملخص الذكي</h3></div>
-            
+            <div class="section-header"><h3>📊 الملخص الذكي</h3></div>
             <div class="summary-selector">
-                <label>👤 ملخص منظم سير:</label>
+                <label> ملخص منظم سير:</label>
                 <div class="search-box" style="margin-bottom:0;">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon"></span>
                     <input type="text" id="summaryOrgSearch" placeholder="ابحث عن منظم سير..." oninput="searchSummaryOrganizer()">
                 </div>
                 <div id="summaryOrgResults" style="max-height:200px;overflow-y:auto;margin-top:10px;"></div>
                 <div id="summaryOrgSelected" style="margin-top:10px;color:var(--green-light);font-weight:700;"></div>
             </div>
-            
             <div class="summary-selector">
                 <label>🏢 ملخص صاحب عمل:</label>
                 <select id="summaryEmployer" onchange="renderEmployerSummary()">
@@ -759,7 +828,6 @@
                 </select>
             </div>
         </div>
-        
         <div id="summaryResult">
             <div class="summary-placeholder">
                 <div class="icon">📊</div>
@@ -770,12 +838,18 @@
     </div>
 </div>
 
-<div id="cardModal" class="modal" onclick="closeModal(event)">
+<!-- Modal عرض وثائق المنظم -->
+<div id="docsModal" class="modal" onclick="closeDocsModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <h3>🆔 صورة البطاقة</h3>
-        <img id="modalCardImg">
-        <div class="btns" style="margin-top:16px;"><button class="btn-util" onclick="document.getElementById('cardModal').classList.remove('show')">إغلاق</button></div>
+        <h3 id="docsModalTitle"> وثائق المنظم</h3>
+        <div id="docsModalBody"></div>
     </div>
+</div>
+
+<!-- عارض الصور المكبّر -->
+<div id="imageViewer" class="image-viewer" onclick="closeImageViewer()">
+    <button class="close-viewer" onclick="closeImageViewer()">✕</button>
+    <img id="viewerImage" src="" alt="">
 </div>
 
 <div id="toast" class="toast"></div>
@@ -788,7 +862,7 @@ const SETTINGS_KEY = 'DR_ABDELLAH_WAGES_SETTINGS_V6';
 let organizers = [], workEntries = [], payments = [];
 let selectedOrganizerIds = new Set(), editingOrgId = null;
 let currentPaymentOrgId = null, currentDayFilter = 'all';
-
+let tempDocs = []; // ✅ مصفوفة الوثائق المؤقتة أثناء الإضافة/التعديل
 let settings = { defaultEmployer: 'Holland Traffic Control', defaultRate: 18, defaultBreak: 30 };
 
 function loadSettings() { try { const s = localStorage.getItem(SETTINGS_KEY); if (s) settings = { ...settings, ...JSON.parse(s) }; } catch(e) {} }
@@ -797,22 +871,12 @@ function saveSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringif
 function switchTab(tabName) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    event.target.classList.add('active');
+    event.target.closest('.tab').classList.add('active');
     document.getElementById('tab-' + tabName).classList.add('active');
-    
     if (tabName === 'work') { updateRegionFilter(); const e = document.getElementById('workEmployer'); if (!e.value) e.value = settings.defaultEmployer; }
     if (tabName === 'invoices') updateInvoiceSelects();
     if (tabName === 'payments') renderPaymentOrganizerList();
-    if (tabName === 'summary') { 
-        updateSummaryEmployers(); 
-        document.getElementById('summaryResult').innerHTML = `
-            <div class="summary-placeholder">
-                <div class="icon">📊</div>
-                <div class="text">اختر منظم سير أو صاحب عمل لعرض الملخص</div>
-                <div class="hint">استخدم البحث أعلاه لاختيار منظم، أو اختر صاحب عمل من القائمة</div>
-            </div>
-        `;
-    }
+    if (tabName === 'summary') { updateSummaryEmployers(); document.getElementById('summaryResult').innerHTML = '<div class="summary-placeholder"><div class="icon">📊</div><div class="text">اختر منظم سير أو صاحب عمل</div><div class="hint">استخدم البحث أعلاه</div></div>'; }
 }
 
 function switchTabDirect(tabName) {
@@ -830,44 +894,109 @@ function switchTabDirect(tabName) {
 function loadData() {
     try {
         const s = localStorage.getItem(DB_KEY);
-        if (s) { const d = JSON.parse(s); organizers = d.organizers || []; workEntries = d.workEntries || []; payments = d.payments || []; showToast(`📥 تم تحميل ${organizers.length} منظم`); }
+        if (s) { 
+            const d = JSON.parse(s); 
+            organizers = d.organizers || []; 
+            workEntries = d.workEntries || []; 
+            payments = d.payments || [];
+            // ✅ ترحيل البيانات القديمة (cardImage -> documents)
+            organizers.forEach(o => {
+                if (o.cardImage && !o.documents) {
+                    o.documents = [o.cardImage];
+                    delete o.cardImage;
+                }
+                if (!o.documents) o.documents = [];
+            });
+            showToast(`📥 تم تحميل ${organizers.length} منظم`); 
+        }
     } catch(e) {}
     updateAllUI();
 }
 
-function saveData() { try { localStorage.setItem(DB_KEY, JSON.stringify({ organizers, workEntries, payments, lastSave: new Date().toISOString(), version: '7.0' })); } catch(e) {} }
+function saveData() { try { localStorage.setItem(DB_KEY, JSON.stringify({ organizers, workEntries, payments, lastSave: new Date().toISOString(), version: '7.3' })); } catch(e) {} }
+
+// ============================================
+// ✅ إدارة الوثائق المتعددة
+// ============================================
+function previewDocs(input) {
+    const files = Array.from(input.files);
+    if (files.length === 0) return;
+    
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            tempDocs.push({
+                id: Date.now() + Math.random(),
+                src: e.target.result,
+                name: file.name,
+                type: file.type,
+                addedAt: new Date().toISOString()
+            });
+            renderDocsPreview();
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    input.value = '';
+}
+
+function renderDocsPreview() {
+    const container = document.getElementById('docsPreview');
+    if (tempDocs.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    container.innerHTML = tempDocs.map((doc, idx) => `
+        <div class="doc-thumb">
+            <img src="${doc.src}" alt="وثيقة ${idx + 1}">
+            <div class="doc-number">${idx + 1}</div>
+            <button class="delete-doc" onclick="removeTempDoc(${doc.id})" title="حذف"></button>
+        </div>
+    `).join('');
+}
+
+function removeTempDoc(docId) {
+    tempDocs = tempDocs.filter(d => d.id !== docId);
+    renderDocsPreview();
+}
 
 function saveOrganizer() {
     const name = document.getElementById('orgName').value.trim();
     if (!name) { showToast('⚠️ الاسم مطلوب', true); return; }
     const orgData = {
-        name, city: document.getElementById('orgCity').value.trim(),
+        name, 
+        city: document.getElementById('orgCity').value.trim(),
         municipality: document.getElementById('orgMunicipality').value.trim(),
         phone: document.getElementById('orgPhone').value.trim(),
+        email: document.getElementById('orgEmail').value.trim(),
         notes: document.getElementById('orgNotes').value.trim(),
-        cardImage: document.getElementById('cardPreview').style.display !== 'none' ? document.getElementById('cardPreview').src : null,
+        documents: [...tempDocs], // ✅ حفظ كل الوثائق
         createdAt: new Date().toISOString()
     };
     if (editingOrgId) {
         const idx = organizers.findIndex(o => o.id === editingOrgId);
         if (idx !== -1) organizers[idx] = { ...organizers[idx], ...orgData };
-        editingOrgId = null; showToast('✅ تم التحديث');
-    } else { orgData.id = Date.now(); organizers.push(orgData); showToast('✅ تم الحفظ'); }
-    saveData(); updateAllUI(); clearOrganizerForm();
+        editingOrgId = null; 
+        tempDocs = [];
+        showToast('✅ تم التحديث');
+    } else { 
+        orgData.id = Date.now(); 
+        organizers.push(orgData); 
+        tempDocs = [];
+        showToast('✅ تم الحفظ'); 
+    }
+    saveData(); 
+    updateAllUI(); 
+    clearOrganizerForm();
 }
 
 function clearOrganizerForm() {
-    ['orgName','orgCity','orgMunicipality','orgPhone','orgNotes'].forEach(id => document.getElementById(id).value = '');
-    document.getElementById('cardPreview').style.display = 'none';
-    document.getElementById('orgCard').value = '';
+    ['orgName','orgCity','orgMunicipality','orgPhone','orgEmail','orgNotes'].forEach(id => document.getElementById(id).value = '');
+    tempDocs = [];
+    renderDocsPreview();
+    document.getElementById('orgDocs').value = '';
     editingOrgId = null;
-}
-
-function previewCard(input) {
-    const file = input.files[0]; if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) { const img = document.getElementById('cardPreview'); img.src = e.target.result; img.style.display = 'block'; };
-    reader.readAsDataURL(file);
 }
 
 function editOrganizer(id) {
@@ -876,11 +1005,14 @@ function editOrganizer(id) {
     document.getElementById('orgCity').value = org.city || '';
     document.getElementById('orgMunicipality').value = org.municipality || '';
     document.getElementById('orgPhone').value = org.phone || '';
+    document.getElementById('orgEmail').value = org.email || '';
     document.getElementById('orgNotes').value = org.notes || '';
-    if (org.cardImage) { document.getElementById('cardPreview').src = org.cardImage; document.getElementById('cardPreview').style.display = 'block'; }
+    // ✅ تحميل وثائعه الموجودة
+    tempDocs = org.documents ? [...org.documents] : [];
+    renderDocsPreview();
     editingOrgId = id;
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast('✏️ عدّل ثم احفظ');
+    showToast('️ عدّل ثم احفظ');
 }
 
 function deleteOrganizer(id) {
@@ -891,14 +1023,193 @@ function deleteOrganizer(id) {
     saveData(); updateAllUI(); showToast('🗑️ تم الحذف');
 }
 
-function viewCard(id) {
+// ============================================
+// ✅ عرض وثائق المنظم (معرض الصور)
+// ============================================
+function viewOrganizerDocs(id) {
     const org = organizers.find(o => o.id === id);
-    if (!org || !org.cardImage) { showToast('⚠️ لا توجد بطاقة', true); return; }
-    document.getElementById('modalCardImg').src = org.cardImage;
-    document.getElementById('cardModal').classList.add('show');
+    if (!org) return;
+    
+    const modalBody = document.getElementById('docsModalBody');
+    document.getElementById('docsModalTitle').textContent = `📁 وثائق ${org.name}`;
+    
+    if (!org.documents || org.documents.length === 0) {
+        modalBody.innerHTML = `
+            <div class="empty-state" style="padding:30px;">
+                <div class="icon">📁</div>
+                <div style="font-size:1.1em;margin-top:10px;">لا توجد وثائق محفوظة</div>
+            </div>
+            <div class="btns" style="margin-top:16px;">
+                <button class="btn-util" onclick="document.getElementById('docsModal').classList.remove('show')">إغلاق</button>
+            </div>
+        `;
+        document.getElementById('docsModal').classList.add('show');
+        return;
+    }
+    
+    // معرض الصور
+    let galleryHtml = `<div class="docs-gallery">`;
+    org.documents.forEach((doc, idx) => {
+        galleryHtml += `
+            <div class="doc-thumb" onclick="viewImage('${doc.src}')">
+                <img src="${doc.src}" alt="وثيقة ${idx + 1}">
+                <div class="doc-number">${idx + 1}</div>
+            </div>
+        `;
+    });
+    galleryHtml += `</div>`;
+    
+    // أزرار المشاركة
+    let shareHtml = `
+        <div class="share-hint">
+            💡 اختر طريقة الإرسال - سيتم إرسال ${org.documents.length > 1 ? 'جميع الوثائق' : 'الوثيقة'} فقط
+        </div>
+        <div class="share-buttons-grid">
+            <button class="share-btn btn-whatsapp" onclick="sendAllDocsWhatsApp(${org.id})">
+                <span class="icon">📱</span>
+                <span>واتساب (الكل)</span>
+            </button>
+            <button class="share-btn btn-email" onclick="sendAllDocsEmail(${org.id})">
+                <span class="icon">📧</span>
+                <span>البريد (الكل)</span>
+            </button>
+            <button class="share-btn btn-download" onclick="downloadAllDocs(${org.id})">
+                <span class="icon">💾</span>
+                <span>تحميل الكل</span>
+            </button>
+            <button class="share-btn btn-util" onclick="document.getElementById('docsModal').classList.remove('show')">
+                <span class="icon">❌</span>
+                <span>إغلاق</span>
+            </button>
+        </div>
+    `;
+    
+    modalBody.innerHTML = galleryHtml + shareHtml;
+    document.getElementById('docsModal').classList.add('show');
 }
 
-function closeModal(e) { if (e.target.id === 'cardModal') document.getElementById('cardModal').classList.remove('show'); }
+// ✅ عرض صورة واحدة مكبّرة
+function viewImage(src) {
+    document.getElementById('viewerImage').src = src;
+    document.getElementById('imageViewer').classList.add('show');
+}
+
+function closeImageViewer() {
+    document.getElementById('imageViewer').classList.remove('show');
+}
+
+// ✅ إرسال جميع الوثائق عبر واتساب
+async function sendAllDocsWhatsApp(orgId) {
+    const org = organizers.find(o => o.id === orgId);
+    if (!org || !org.documents || org.documents.length === 0) { 
+        showToast('⚠️ لا توجد وثائق', true); 
+        return; 
+    }
+    
+    try {
+        const files = [];
+        for (let i = 0; i < org.documents.length; i++) {
+            const response = await fetch(org.documents[i].src);
+            const blob = await response.blob();
+            const fileName = `${org.name.replace(/\s+/g, '_')}_doc${i + 1}.jpg`;
+            files.push(new File([blob], fileName, { type: blob.type || 'image/jpeg' }));
+        }
+        
+        if (navigator.share && navigator.canShare && navigator.canShare({ files })) {
+            await navigator.share({ files });
+            showToast(`✅ تم إرسال ${files.length} وثيقة`);
+        } else {
+            showToast('️ متصفحك لا يدعم الإرسال المباشر - تم تحميل الوثائق', true);
+            downloadAllDocs(orgId);
+        }
+    } catch (err) {
+        if (err.name !== 'AbortError') {
+            showToast('⚠️ فشل الإرسال', true);
+        }
+    }
+}
+
+// ✅ إرسال جميع الوثائق عبر الإيميل
+async function sendAllDocsEmail(orgId) {
+    const org = organizers.find(o => o.id === orgId);
+    if (!org || !org.documents || org.documents.length === 0) { 
+        showToast('⚠️ لا توجد وثائق', true); 
+        return; 
+    }
+    
+    try {
+        const files = [];
+        for (let i = 0; i < org.documents.length; i++) {
+            const response = await fetch(org.documents[i].src);
+            const blob = await response.blob();
+            const fileName = `${org.name.replace(/\s+/g, '_')}_doc${i + 1}.jpg`;
+            files.push(new File([blob], fileName, { type: blob.type || 'image/jpeg' }));
+        }
+        
+        if (navigator.share && navigator.canShare && navigator.canShare({ files })) {
+            await navigator.share({ files });
+            showToast(`✅ تم إرسال ${files.length} وثيقة`);
+        } else {
+            showToast('⚠️ متصفحك لا يدعم الإرسال المباشر - تم تحميل الوثائق', true);
+            downloadAllDocs(orgId);
+        }
+    } catch (err) {
+        if (err.name !== 'AbortError') {
+            showToast('⚠️ فشل الإرسال', true);
+        }
+    }
+}
+
+// ✅ تحميل جميع الوثائق
+async function downloadAllDocs(orgId) {
+    const org = organizers.find(o => o.id === orgId);
+    if (!org || !org.documents || org.documents.length === 0) { 
+        showToast('⚠️ لا توجد وثائق', true); 
+        return; 
+    }
+    
+    for (let i = 0; i < org.documents.length; i++) {
+        const a = document.createElement('a');
+        a.href = org.documents[i].src;
+        a.download = `${org.name.replace(/\s+/g, '_')}_doc${i + 1}_${Date.now()}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        // تأخير بسيط بين التحميلات
+        await new Promise(r => setTimeout(r, 300));
+    }
+    showToast(`✅ تم تحميل ${org.documents.length} وثيقة`);
+}
+
+// ✅ إرسال وثيقة واحدة
+async function sendSingleDoc(orgId, docIndex) {
+    const org = organizers.find(o => o.id === orgId);
+    if (!org || !org.documents || !org.documents[docIndex]) return;
+    
+    try {
+        const response = await fetch(org.documents[docIndex].src);
+        const blob = await response.blob();
+        const fileName = `${org.name.replace(/\s+/g, '_')}_doc${docIndex + 1}.jpg`;
+        const file = new File([blob], fileName, { type: blob.type || 'image/jpeg' });
+        
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file] });
+            showToast('✅ تم إرسال الوثيقة');
+        } else {
+            const a = document.createElement('a');
+            a.href = org.documents[docIndex].src;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast('️ تم تحميل الوثيقة', true);
+        }
+    } catch (err) {
+        if (err.name !== 'AbortError') showToast('⚠️ فشل الإرسال', true);
+    }
+}
+
+function closeDocsModal(e) { if (e.target.id === 'docsModal') document.getElementById('docsModal').classList.remove('show'); }
 
 function printOrganizerInvoice(id) {
     const org = organizers.find(o => o.id === id); if (!org) return;
@@ -921,7 +1232,25 @@ function searchOrganizers() {
 }
 
 function renderOrganizerCard(o) {
-    return `<div style="background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;border-right:4px solid var(--green);transition:all 0.3s;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div style="color:var(--accent-light);font-weight:700;font-size:1.1em;">👤 ${o.name}</div>${o.cardImage ? '<span class="badge badge-green">🆔</span>' : ''}</div>${o.city ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">🏠 ${o.city}</div>` : ''}${o.municipality ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">🏛️ ${o.municipality}</div>` : ''}${o.phone ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">📱 ${o.phone}</div>` : ''}<div style="display:flex;gap:8px;margin-top:10px;"><button onclick="viewCard(${o.id})" style="flex:1;padding:10px;background:var(--accent);color:#000;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;">👁️</button><button onclick="printOrganizerInvoice(${o.id})" style="flex:1;padding:10px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;">📄</button><button onclick="editOrganizer(${o.id})" style="flex:1;padding:10px;background:var(--orange);color:#000;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;">✏️</button><button onclick="deleteOrganizer(${o.id})" style="flex:1;padding:10px;background:var(--red);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;">🗑️</button></div></div>`;
+    const docsCount = (o.documents || []).length;
+    return `<div style="background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;border-right:4px solid var(--green);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div style="color:var(--accent-light);font-weight:700;font-size:1.1em;"> ${o.name}</div>
+            ${docsCount > 0 ? `<span class="badge badge-purple">📁 ${docsCount} وثيقة</span>` : ''}
+        </div>
+        ${o.city ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">🏠 ${o.city}</div>` : ''}
+        ${o.municipality ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">🏛️ ${o.municipality}</div>` : ''}
+        ${o.phone ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">📱 ${o.phone}</div>` : ''}
+        ${o.email ? `<div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:4px;">📧 ${o.email}</div>` : ''}
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+            <button onclick="viewOrganizerDocs(${o.id})" style="flex:1;min-width:70px;padding:10px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;font-size:0.85em;">📁 وثائق</button>
+            ${docsCount > 0 ? `<button onclick="sendAllDocsWhatsApp(${o.id})" style="flex:1;min-width:70px;padding:10px;background:var(--whatsapp);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;font-size:0.85em;">📱 واتساب</button>` : ''}
+            ${docsCount > 0 ? `<button onclick="sendAllDocsEmail(${o.id})" style="flex:1;min-width:70px;padding:10px;background:var(--email);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;font-size:0.85em;">📧 إيميل</button>` : ''}
+            <button onclick="printOrganizerInvoice(${o.id})" style="flex:1;min-width:70px;padding:10px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;font-size:0.85em;">📄 فاتورة</button>
+            <button onclick="editOrganizer(${o.id})" style="flex:1;min-width:70px;padding:10px;background:var(--orange);color:#000;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;font-size:0.85em;">✏️</button>
+            <button onclick="deleteOrganizer(${o.id})" style="flex:1;min-width:70px;padding:10px;background:var(--red);color:#fff;border:none;border-radius:var(--radius-xs);cursor:pointer;font-weight:700;font-size:0.85em;">🗑️</button>
+        </div>
+    </div>`;
 }
 
 function toggleOrgList() {
@@ -1043,7 +1372,8 @@ function updateAllUI() { updateStats(); renderOrganizersList(); updateRegionFilt
 function updateStats() {
     const totalEarnings = workEntries.reduce((s, e) => s + e.total, 0), totalHours = workEntries.reduce((s, e) => s + e.hours, 0);
     const unpaidTotal = workEntries.reduce((s, e) => s + e.crewDetails.filter(c => !c.paid).reduce((sum, c) => sum + (c.customAmount || c.personTotal), 0), 0);
-    document.getElementById('statsBar').innerHTML = ` ${organizers.length} | 📅 ${workEntries.length} | ⏱️ ${totalHours.toFixed(1)}س | 💵 €${totalEarnings.toFixed(2)} | ⚠️ €${unpaidTotal.toFixed(2)}`;
+    const totalDocs = organizers.reduce((s, o) => s + (o.documents || []).length, 0);
+    document.getElementById('statsBar').innerHTML = `👥 ${organizers.length} | 📁 ${totalDocs} وثيقة | 📅 ${workEntries.length} | ⏱️ ${totalHours.toFixed(1)}س | 💵 €${totalEarnings.toFixed(2)} | ⚠️ €${unpaidTotal.toFixed(2)}`;
     document.getElementById('orgCount').textContent = organizers.length;
 }
 
@@ -1094,7 +1424,7 @@ function getLastPaymentDate(orgId) {
 function generateInvoice() {
     const sel = document.getElementById('invEmployer').value, orgFilter = document.getElementById('invOrgSelected').value, from = document.getElementById('invFrom').value, to = document.getElementById('invTo').value;
     let filtered = workEntries.filter(e => { if (sel !== 'all' && e.employer !== sel) return false; if (from && e.date < from) return false; if (to && e.date > to) return false; if (orgFilter !== 'all' && !e.crewDetails.some(c => c.organizerId == orgFilter)) return false; return true; }).sort((a, b) => new Date(a.date) - new Date(b.date));
-    if (filtered.length === 0) { showToast('️ لا توجد بيانات', true); return; }
+    if (filtered.length === 0) { showToast('⚠️ لا توجد بيانات', true); return; }
     const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4');
     doc.setFontSize(18); doc.setFont('helvetica', 'bold'); doc.text('Factuur / Urenoverzicht', 105, 20, { align: 'center' });
     doc.setFontSize(11); doc.setFont('helvetica', 'normal'); doc.text(sel !== 'all' ? `Werkgever: ${sel}` : 'Alle Werkgevers', 105, 30, { align: 'center' });
@@ -1122,7 +1452,8 @@ function renderPaymentOrganizerList() {
     container.innerHTML = organizers.map(o => {
         const orgUnpaid = workEntries.reduce((sum, e) => sum + e.crewDetails.filter(c => c.organizerId === o.id && !c.paid).reduce((s, c) => s + (c.customAmount || c.personTotal), 0), 0);
         const lastPay = getLastPaymentDate(o.id);
-        return `<div onclick="openOrganizerDays(${o.id})" style="background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;cursor:pointer;border-right:4px solid ${orgUnpaid > 0 ? 'var(--red)' : 'var(--green)'};transition:all 0.3s;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div style="color:var(--accent-light);font-weight:700;font-size:1.1em;">👤 ${o.name}</div><span class="badge ${orgUnpaid > 0 ? 'badge-red' : 'badge-green'}">${orgUnpaid > 0 ? '€' + orgUnpaid.toFixed(2) : '✅'}</span></div><div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:6px;">🏠 ${o.city || '-'} | 📱 ${o.phone || '-'}</div><div style="font-size:0.85em;color:var(--text-muted);">آخر دفعة: ${lastPay || 'لم يدفع بعد'}</div></div>`;
+        const docsCount = (o.documents || []).length;
+        return `<div onclick="openOrganizerDays(${o.id})" style="background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;cursor:pointer;border-right:4px solid ${orgUnpaid > 0 ? 'var(--red)' : 'var(--green)'};"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div style="color:var(--accent-light);font-weight:700;font-size:1.1em;">👤 ${o.name}</div><div><span class="badge ${orgUnpaid > 0 ? 'badge-red' : 'badge-green'}">${orgUnpaid > 0 ? '€' + orgUnpaid.toFixed(2) : '✅'}</span>${docsCount > 0 ? `<span class="badge badge-purple">${docsCount}</span>` : ''}</div></div><div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:6px;">🏠 ${o.city || '-'} | 📱 ${o.phone || '-'}</div><div style="font-size:0.85em;color:var(--text-muted);">آخر دفعة: ${lastPay || 'لم يدفع بعد'}</div></div>`;
     }).join('');
 }
 
@@ -1134,7 +1465,8 @@ function filterPaymentOrganizers() {
     container.innerHTML = filtered.map(o => {
         const orgUnpaid = workEntries.reduce((sum, e) => sum + e.crewDetails.filter(c => c.organizerId === o.id && !c.paid).reduce((s, c) => s + (c.customAmount || c.personTotal), 0), 0);
         const lastPay = getLastPaymentDate(o.id);
-        return `<div onclick="openOrganizerDays(${o.id})" style="background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;cursor:pointer;border-right:4px solid ${orgUnpaid > 0 ? 'var(--red)' : 'var(--green)'};transition:all 0.3s;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div style="color:var(--accent-light);font-weight:700;font-size:1.1em;">👤 ${o.name}</div><span class="badge ${orgUnpaid > 0 ? 'badge-red' : 'badge-green'}">${orgUnpaid > 0 ? '€' + orgUnpaid.toFixed(2) : '✅'}</span></div><div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:6px;">🏠 ${o.city || '-'}</div><div style="font-size:0.85em;color:var(--text-muted);">آخر دفعة: ${lastPay || '-'}</div></div>`;
+        const docsCount = (o.documents || []).length;
+        return `<div onclick="openOrganizerDays(${o.id})" style="background:rgba(15,23,42,0.6);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px;cursor:pointer;border-right:4px solid ${orgUnpaid > 0 ? 'var(--red)' : 'var(--green)'};"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><div style="color:var(--accent-light);font-weight:700;font-size:1.1em;">👤 ${o.name}</div><div><span class="badge ${orgUnpaid > 0 ? 'badge-red' : 'badge-green'}">${orgUnpaid > 0 ? '€' + orgUnpaid.toFixed(2) : '✅'}</span>${docsCount > 0 ? `<span class="badge badge-purple">📁${docsCount}</span>` : ''}</div></div><div style="font-size:0.9em;color:var(--text-secondary);margin-bottom:6px;"> ${o.city || '-'}</div><div style="font-size:0.85em;color:var(--text-muted);">آخر دفعة: ${lastPay || '-'}</div></div>`;
     }).join('');
 }
 
@@ -1142,70 +1474,49 @@ function openOrganizerDays(orgId) {
     const org = organizers.find(o => o.id === orgId); if (!org) return;
     currentPaymentOrgId = orgId;
     currentDayFilter = 'all';
-    document.getElementById('selectedOrgTitle').textContent = ` أيام ${org.name}`;
+    document.getElementById('selectedOrgTitle').textContent = `📅 أيام ${org.name}`;
     document.getElementById('organizerDaysSection').style.display = 'block';
     renderOrganizerDays();
     document.getElementById('organizerDaysSection').scrollIntoView({ behavior: 'smooth' });
 }
 
-function filterDays(filter) {
-    currentDayFilter = filter;
-    renderOrganizerDays();
-}
+function filterDays(filter) { currentDayFilter = filter; renderOrganizerDays(); }
 
 function renderOrganizerDays() {
     if (!currentPaymentOrgId) return;
-    const org = organizers.find(o => o.id === currentPaymentOrgId); if (!org) return;
-    
     const allDays = [];
     workEntries.forEach(e => {
         e.crewDetails.forEach((c, idx) => {
             if (c.organizerId === currentPaymentOrgId) {
-                allDays.push({
-                    entryId: e.id, crewIndex: idx, date: e.date, employer: e.employer, location: e.location,
-                    startTime: c.startTime, endTime: c.endTime, hours: c.hours, rate: c.rate, km: c.km, breakMins: c.breakMins,
-                    originalAmount: c.personTotal, customAmount: c.customAmount || null,
-                    displayAmount: c.customAmount || c.personTotal, paid: c.paid, paidDate: c.paidDate || null, note: c.note || ''
-                });
+                allDays.push({ entryId: e.id, crewIndex: idx, date: e.date, employer: e.employer, location: e.location, startTime: c.startTime, endTime: c.endTime, hours: c.hours, rate: c.rate, km: c.km, breakMins: c.breakMins, customAmount: c.customAmount || null, displayAmount: c.customAmount || c.personTotal, paid: c.paid, paidDate: c.paidDate || null, note: c.note || '' });
             }
         });
     });
-    
     allDays.sort((a, b) => new Date(b.date) - new Date(a.date));
-    
     let filtered = allDays;
     if (currentDayFilter === 'unpaid') filtered = allDays.filter(d => !d.paid);
     if (currentDayFilter === 'paid') filtered = allDays.filter(d => d.paid);
-    
-    const totalDays = allDays.length;
-    const paidDays = allDays.filter(d => d.paid).length;
-    const unpaidDays = totalDays - paidDays;
-    document.getElementById('orgTotalDays').textContent = totalDays;
-    document.getElementById('orgPaidDays').textContent = paidDays;
-    document.getElementById('orgUnpaidDays').textContent = unpaidDays;
-    
+    document.getElementById('orgTotalDays').textContent = allDays.length;
+    document.getElementById('orgPaidDays').textContent = allDays.filter(d => d.paid).length;
+    document.getElementById('orgUnpaidDays').textContent = allDays.length - allDays.filter(d => d.paid).length;
     const container = document.getElementById('organizerDaysList');
-    if (filtered.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="icon"></div><div>لا توجد أيام</div></div>';
-        return;
-    }
-    
+    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state"><div class="icon">📅</div><div>لا توجد أيام</div></div>'; return; }
     container.innerHTML = filtered.map(day => `
         <div class="day-card ${day.paid ? 'paid' : ''}" id="dayCard_${day.entryId}_${day.crewIndex}">
             <div class="day-card-header">
                 <div class="day-card-date">📅 ${day.date}</div>
-                <span class="day-card-status ${day.paid ? 'status-paid' : 'status-unpaid'}">${day.paid ? '✅ مدفوع' : '⚠️ مستحق'}</span>
+                <span class="day-card-status ${day.paid ? 'status-paid' : 'status-unpaid'}">${day.paid ? '✅ مدفوع' : '️ مستحق'}</span>
             </div>
             <div class="day-card-info">
                 <div>🏢 ${day.employer} | 📍 ${day.location || '-'}</div>
-                <div> ${day.startTime} - ${day.endTime} | ⏱️ ${day.hours}س | 💰 €${day.rate}/س | 🚗 ${day.km}كم</div>
-                ${day.note ? `<div style="color:var(--purple-light);">📝 ${day.note}</div>` : ''}
+                <div>⏰ ${day.startTime} - ${day.endTime} | ⏱️ ${day.hours}س | 💰 €${day.rate}/س | 🚗 ${day.km}كم</div>
+                ${day.note ? `<div style="color:var(--purple-light);"> ${day.note}</div>` : ''}
                 ${day.paid && day.paidDate ? `<div style="color:var(--green-light);">✅ دُفع في: ${day.paidDate}</div>` : ''}
             </div>
             <div class="day-card-amount">€${day.displayAmount.toFixed(2)}${day.customAmount !== null ? ' <small style="font-size:0.6em;color:var(--text-muted);">(معدل)</small>' : ''}</div>
             <div class="day-card-actions">
                 ${!day.paid ? `<button class="btn-success" onclick="quickPay(${day.entryId}, ${day.crewIndex})">✅ دفع</button>` : `<button class="btn-util" onclick="undoPay(${day.entryId}, ${day.crewIndex})">↩️ إلغاء</button>`}
-                <button class="btn-modify" onclick="toggleEditDay(${day.entryId}, ${day.crewIndex})">️ تعديل</button>
+                <button class="btn-modify" onclick="toggleEditDay(${day.entryId}, ${day.crewIndex})">✏️ تعديل</button>
                 <button class="btn-danger" onclick="deleteDay(${day.entryId}, ${day.crewIndex})">🗑️</button>
             </div>
             <div class="inline-edit" id="edit_${day.entryId}_${day.crewIndex}">
@@ -1215,7 +1526,7 @@ function renderOrganizerDays() {
                 </div>
                 <div class="edit-row">
                     <div><label>⏰ البداية</label><input type="time" id="edit_start_${day.entryId}_${day.crewIndex}" value="${day.startTime}"></div>
-                    <div><label> النهاية</label><input type="time" id="edit_end_${day.entryId}_${day.crewIndex}" value="${day.endTime}"></div>
+                    <div><label>⏰ النهاية</label><input type="time" id="edit_end_${day.entryId}_${day.crewIndex}" value="${day.endTime}"></div>
                 </div>
                 <div class="edit-row">
                     <div><label>⏱️ الساعات</label><input type="number" id="edit_hours_${day.entryId}_${day.crewIndex}" value="${day.hours}" step="0.5"></div>
@@ -1238,82 +1549,44 @@ function renderOrganizerDays() {
 function toggleEditDay(entryId, crewIndex) {
     const editDiv = document.getElementById(`edit_${entryId}_${crewIndex}`);
     const card = document.getElementById(`dayCard_${entryId}_${crewIndex}`);
-    if (editDiv.classList.contains('show')) {
-        editDiv.classList.remove('show');
-        card.classList.remove('editing');
-    } else {
-        editDiv.classList.add('show');
-        card.classList.add('editing');
-    }
+    if (editDiv.classList.contains('show')) { editDiv.classList.remove('show'); card.classList.remove('editing'); }
+    else { editDiv.classList.add('show'); card.classList.add('editing'); }
 }
 
 function saveDayEdit(entryId, crewIndex) {
-    const entry = workEntries.find(e => e.id === entryId);
-    if (!entry) return;
+    const entry = workEntries.find(e => e.id === entryId); if (!entry) return;
     const crew = entry.crewDetails[crewIndex];
-    
-    const newDate = document.getElementById(`edit_date_${entryId}_${crewIndex}`).value;
+    entry.date = document.getElementById(`edit_date_${entryId}_${crewIndex}`).value;
+    crew.startTime = document.getElementById(`edit_start_${entryId}_${crewIndex}`).value;
+    crew.endTime = document.getElementById(`edit_end_${entryId}_${crewIndex}`).value;
+    crew.hours = parseFloat(document.getElementById(`edit_hours_${entryId}_${crewIndex}`).value);
+    crew.rate = parseFloat(document.getElementById(`edit_rate_${entryId}_${crewIndex}`).value);
+    crew.km = parseFloat(document.getElementById(`edit_km_${entryId}_${crewIndex}`).value);
+    crew.breakMins = parseInt(document.getElementById(`edit_break_${entryId}_${crewIndex}`).value) || 0;
+    crew.note = document.getElementById(`edit_note_${entryId}_${crewIndex}`).value.trim();
     const newAmount = parseFloat(document.getElementById(`edit_amount_${entryId}_${crewIndex}`).value);
-    const newStart = document.getElementById(`edit_start_${entryId}_${crewIndex}`).value;
-    const newEnd = document.getElementById(`edit_end_${entryId}_${crewIndex}`).value;
-    const newHours = parseFloat(document.getElementById(`edit_hours_${entryId}_${crewIndex}`).value);
-    const newRate = parseFloat(document.getElementById(`edit_rate_${entryId}_${crewIndex}`).value);
-    const newKm = parseFloat(document.getElementById(`edit_km_${entryId}_${crewIndex}`).value);
-    const newBreak = parseInt(document.getElementById(`edit_break_${entryId}_${crewIndex}`).value) || 0;
-    const newNote = document.getElementById(`edit_note_${entryId}_${crewIndex}`).value.trim();
-    
-    entry.date = newDate;
-    crew.startTime = newStart;
-    crew.endTime = newEnd;
-    crew.hours = newHours;
-    crew.rate = newRate;
-    crew.km = newKm;
-    crew.breakMins = newBreak;
-    crew.transport = newKm * 0.20;
-    crew.personTotal = newAmount;
-    crew.customAmount = newAmount;
-    crew.note = newNote;
-    
+    crew.personTotal = newAmount; crew.customAmount = newAmount; crew.transport = crew.km * 0.20;
     entry.total = entry.crewDetails.reduce((s, c) => s + (c.customAmount || c.personTotal), 0);
     entry.hours = entry.crewDetails.reduce((s, c) => s + c.hours, 0);
-    
-    saveData();
-    updateStats();
-    renderOrganizerDays();
+    saveData(); updateStats(); renderOrganizerDays();
     showToast('✅ تم حفظ التعديلات');
 }
 
 function quickPay(entryId, crewIndex) {
-    const entry = workEntries.find(e => e.id === entryId);
-    if (!entry) return;
+    const entry = workEntries.find(e => e.id === entryId); if (!entry) return;
     const crew = entry.crewDetails[crewIndex];
-    
-    crew.paid = true;
-    crew.paidDate = new Date().toISOString().split('T')[0];
-    
+    crew.paid = true; crew.paidDate = new Date().toISOString().split('T')[0];
     const displayAmount = crew.customAmount || crew.personTotal;
-    payments.push({
-        id: Date.now(), organizerId: crew.organizerId, organizerName: crew.organizerName,
-        amount: displayAmount, daysCount: 1, date: new Date().toISOString().split('T')[0],
-        days: [{ entryId, crewIndex, date: entry.date, amount: displayAmount }],
-        createdAt: new Date().toISOString()
-    });
-    
-    saveData();
-    renderOrganizerDays();
-    updateStats();
-    createConfetti();
+    payments.push({ id: Date.now(), organizerId: crew.organizerId, organizerName: crew.organizerName, amount: displayAmount, daysCount: 1, date: new Date().toISOString().split('T')[0], days: [{ entryId, crewIndex, date: entry.date, amount: displayAmount }], createdAt: new Date().toISOString() });
+    saveData(); renderOrganizerDays(); updateStats();
     showToast(`✅ تم دفع €${displayAmount.toFixed(2)}`);
 }
 
 function undoPay(entryId, crewIndex) {
     if (!confirm('إلغاء الدفع؟')) return;
-    const entry = workEntries.find(e => e.id === entryId);
-    if (!entry) return;
+    const entry = workEntries.find(e => e.id === entryId); if (!entry) return;
     const crew = entry.crewDetails[crewIndex];
-    crew.paid = false;
-    crew.paidDate = null;
-    
+    crew.paid = false; crew.paidDate = null;
     const lastPayment = payments.filter(p => p.organizerId === crew.organizerId).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
     if (lastPayment) {
         lastPayment.days = lastPayment.days.filter(d => !(d.entryId === entryId && d.crewIndex === crewIndex));
@@ -1321,204 +1594,73 @@ function undoPay(entryId, crewIndex) {
         lastPayment.daysCount = lastPayment.days.length;
         if (lastPayment.days.length === 0) payments = payments.filter(p => p.id !== lastPayment.id);
     }
-    
-    saveData();
-    renderOrganizerDays();
-    updateStats();
-    showToast('↩️ تم إلغاء الدفع');
+    saveData(); renderOrganizerDays(); updateStats();
+    showToast('️ تم إلغاء الدفع');
 }
 
 function deleteDay(entryId, crewIndex) {
     if (!confirm('حذف هذا اليوم؟')) return;
-    const entry = workEntries.find(e => e.id === entryId);
-    if (!entry) return;
-    
+    const entry = workEntries.find(e => e.id === entryId); if (!entry) return;
     const crew = entry.crewDetails[crewIndex];
     if (crew.paid) {
-        payments.forEach(p => {
-            p.days = p.days.filter(d => !(d.entryId === entryId && d.crewIndex === crewIndex));
-            p.amount = p.days.reduce((s, d) => s + d.amount, 0);
-            p.daysCount = p.days.length;
-        });
+        payments.forEach(p => { p.days = p.days.filter(d => !(d.entryId === entryId && d.crewIndex === crewIndex)); p.amount = p.days.reduce((s, d) => s + d.amount, 0); p.daysCount = p.days.length; });
         payments = payments.filter(p => p.days.length > 0);
     }
-    
     entry.crewDetails.splice(crewIndex, 1);
-    if (entry.crewDetails.length === 0) {
-        workEntries = workEntries.filter(e => e.id !== entryId);
-    } else {
-        entry.total = entry.crewDetails.reduce((s, c) => s + (c.customAmount || c.personTotal), 0);
-        entry.hours = entry.crewDetails.reduce((s, c) => s + c.hours, 0);
-        entry.crewCount = entry.crewDetails.length;
-    }
-    
-    saveData();
-    renderOrganizerDays();
-    updateStats();
+    if (entry.crewDetails.length === 0) workEntries = workEntries.filter(e => e.id !== entryId);
+    else { entry.total = entry.crewDetails.reduce((s, c) => s + (c.customAmount || c.personTotal), 0); entry.hours = entry.crewDetails.reduce((s, c) => s + c.hours, 0); entry.crewCount = entry.crewDetails.length; }
+    saveData(); renderOrganizerDays(); updateStats();
     showToast('🗑️ تم الحذف');
-}
-
-function createConfetti() {
-    const colors = ['#10b981', '#06b6d4', '#f59e0b', '#ec4899', '#8b5cf6'];
-    for (let i = 0; i < 30; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = '50vh';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animation = `confetti ${1 + Math.random()}s ease-out forwards`;
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 2000);
-    }
 }
 
 function updateSummaryEmployers() {
     const employers = [...new Set(workEntries.map(e => e.employer).filter(Boolean))];
     if (settings.defaultEmployer && !employers.includes(settings.defaultEmployer)) employers.unshift(settings.defaultEmployer);
-    const sel = document.getElementById('summaryEmployer');
-    sel.innerHTML = '<option value="">-- اختر صاحب العمل --</option>' + employers.map(e => `<option value="${e}">${e}</option>`).join('');
+    document.getElementById('summaryEmployer').innerHTML = '<option value="">-- اختر صاحب العمل --</option>' + employers.map(e => `<option value="${e}">${e}</option>`).join('');
 }
 
 function searchSummaryOrganizer() {
     const query = document.getElementById('summaryOrgSearch').value.trim().toLowerCase();
     const resultsDiv = document.getElementById('summaryOrgResults');
     const selectedDiv = document.getElementById('summaryOrgSelected');
-    
-    if (!query) { 
-        resultsDiv.innerHTML = ''; 
-        selectedDiv.textContent = '';
-        return; 
-    }
-    
-    const results = organizers.filter(o => 
-        (o.name && o.name.toLowerCase().includes(query)) || 
-        (o.city && o.city.toLowerCase().includes(query)) ||
-        (o.municipality && o.municipality.toLowerCase().includes(query))
-    );
-    
-    if (results.length === 0) {
-        resultsDiv.innerHTML = '<div style="padding:10px;color:var(--text-muted);text-align:center;">لا توجد نتائج</div>';
-        return;
-    }
-    
-    resultsDiv.innerHTML = results.map(o => `
-        <div class="selectable-item" onclick="selectSummaryOrganizer(${o.id})" style="margin-bottom:6px;">
-            <div class="info">
-                <div class="name">${o.name}</div>
-                <div class="details">🏠 ${o.city || '-'} ${o.municipality ? '• ' + o.municipality : ''}</div>
-            </div>
-        </div>
-    `).join('');
+    if (!query) { resultsDiv.innerHTML = ''; selectedDiv.textContent = ''; return; }
+    const results = organizers.filter(o => (o.name && o.name.toLowerCase().includes(query)) || (o.city && o.city.toLowerCase().includes(query)) || (o.municipality && o.municipality.toLowerCase().includes(query)));
+    if (results.length === 0) { resultsDiv.innerHTML = '<div style="padding:10px;color:var(--text-muted);text-align:center;">لا توجد نتائج</div>'; return; }
+    resultsDiv.innerHTML = results.map(o => `<div class="selectable-item" onclick="selectSummaryOrganizer(${o.id})" style="margin-bottom:6px;"><div class="info"><div class="name">${o.name}</div><div class="details">🏠 ${o.city || '-'} ${o.municipality ? '• ' + o.municipality : ''}</div></div></div>`).join('');
 }
 
 function selectSummaryOrganizer(orgId) {
-    const org = organizers.find(o => o.id === orgId);
-    if (!org) return;
-    
+    const org = organizers.find(o => o.id === orgId); if (!org) return;
     document.getElementById('summaryOrgSearch').value = org.name;
     document.getElementById('summaryOrgResults').innerHTML = '';
     document.getElementById('summaryOrgSelected').textContent = `✅ المحدد: ${org.name} - ${org.city || ''}`;
-    
     renderOrganizerSummary(orgId);
 }
 
 function renderOrganizerSummary(orgId) {
-    const org = organizers.find(o => o.id === orgId);
-    if (!org) return;
-    
+    const org = organizers.find(o => o.id === orgId); if (!org) return;
     const orgEntries = workEntries.filter(e => e.crewDetails.some(c => c.organizerId === orgId));
-    
-    if (orgEntries.length === 0) {
-        document.getElementById('summaryResult').innerHTML = `
-            <div class="card">
-                <div class="summary-card">
-                    <h4>👤 ${org.name} - ${org.city || ''}</h4>
-                    <div class="empty-state" style="padding:20px;">
-                        <div class="icon"></div>
-                        <div>لا توجد أيام عمل مسجلة لهذا المنظم</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        return;
-    }
-    
+    if (orgEntries.length === 0) { document.getElementById('summaryResult').innerHTML = `<div class="card"><div class="summary-card"><h4>👤 ${org.name} - ${org.city || ''}</h4><div class="empty-state" style="padding:20px;"><div class="icon">📅</div><div>لا توجد أيام عمل</div></div></div></div>`; return; }
     const totalHours = orgEntries.reduce((sum, e) => sum + e.crewDetails.filter(c => c.organizerId === orgId).reduce((s, c) => s + c.hours, 0), 0);
     const totalPaid = orgEntries.reduce((sum, e) => sum + e.crewDetails.filter(c => c.organizerId === orgId && c.paid).reduce((s, c) => s + (c.customAmount || c.personTotal), 0), 0);
     const totalUnpaid = orgEntries.reduce((sum, e) => sum + e.crewDetails.filter(c => c.organizerId === orgId && !c.paid).reduce((s, c) => s + (c.customAmount || c.personTotal), 0), 0);
     const total = totalPaid + totalUnpaid;
-    const days = orgEntries.length;
-    const lastPay = getLastPaymentDate(orgId);
-    
-    document.getElementById('summaryResult').innerHTML = `
-        <div class="card">
-            <div class="summary-card">
-                <h4>👤 ${org.name} - ${org.city || ''}</h4>
-                <div class="summary-grid">
-                    <div class="summary-item"><div class="value">${days}</div><div class="label">أيام العمل</div></div>
-                    <div class="summary-item"><div class="value">${totalHours.toFixed(1)}</div><div class="label">إجمالي الساعات</div></div>
-                    <div class="summary-item"><div class="value">€${total.toFixed(2)}</div><div class="label">إجمالي الأجر</div></div>
-                    <div class="summary-item"><div class="value" style="color:var(--green-light);">€${totalPaid.toFixed(2)}</div><div class="label">المدفوع</div></div>
-                    <div class="summary-item"><div class="value" style="color:var(--orange-light);">€${totalUnpaid.toFixed(2)}</div><div class="label">غير المدفوع</div></div>
-                    <div class="summary-item"><div class="value">${lastPay || '-'}</div><div class="label">آخر دفعة</div></div>
-                </div>
-            </div>
-        </div>
-    `;
+    document.getElementById('summaryResult').innerHTML = `<div class="card"><div class="summary-card"><h4>👤 ${org.name} - ${org.city || ''}</h4><div class="summary-grid"><div class="summary-item"><div class="value">${orgEntries.length}</div><div class="label">أيام العمل</div></div><div class="summary-item"><div class="value">${totalHours.toFixed(1)}</div><div class="label">الساعات</div></div><div class="summary-item"><div class="value">€${total.toFixed(2)}</div><div class="label">الإجمالي</div></div><div class="summary-item"><div class="value" style="color:var(--green-light);">€${totalPaid.toFixed(2)}</div><div class="label">المدفوع</div></div><div class="summary-item"><div class="value" style="color:var(--orange-light);">€${totalUnpaid.toFixed(2)}</div><div class="label">غير المدفوع</div></div><div class="summary-item"><div class="value">${getLastPaymentDate(orgId) || '-'}</div><div class="label">آخر دفعة</div></div></div></div></div>`;
 }
 
 function renderEmployerSummary() {
     const employer = document.getElementById('summaryEmployer').value;
-    if (!employer) {
-        document.getElementById('summaryResult').innerHTML = `
-            <div class="summary-placeholder">
-                <div class="icon">📊</div>
-                <div class="text">اختر منظم سير أو صاحب عمل لعرض الملخص</div>
-                <div class="hint">استخدم البحث أعلاه لاختيار منظم، أو اختر صاحب عمل من القائمة</div>
-            </div>
-        `;
-        return;
-    }
-    
+    if (!employer) { document.getElementById('summaryResult').innerHTML = '<div class="summary-placeholder"><div class="icon">📊</div><div class="text">اختر منظم سير أو صاحب عمل</div><div class="hint">استخدم البحث أعلاه</div></div>'; return; }
     const empEntries = workEntries.filter(e => e.employer === employer);
-    
-    if (empEntries.length === 0) {
-        document.getElementById('summaryResult').innerHTML = `
-            <div class="card">
-                <div class="summary-card">
-                    <h4>🏢 ${employer}</h4>
-                    <div class="empty-state" style="padding:20px;">
-                        <div class="icon"></div>
-                        <div>لا توجد أيام عمل مسجلة</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        return;
-    }
-    
+    if (empEntries.length === 0) { document.getElementById('summaryResult').innerHTML = `<div class="card"><div class="summary-card"><h4>🏢 ${employer}</h4><div class="empty-state"><div class="icon">📅</div><div>لا توجد أيام</div></div></div></div>`; return; }
     const totalHours = empEntries.reduce((s, e) => s + e.hours, 0);
     const total = empEntries.reduce((s, e) => s + e.total, 0);
-    const days = empEntries.length;
     const orgs = new Set(empEntries.flatMap(e => e.crewDetails.map(c => c.organizerId))).size;
-    
-    document.getElementById('summaryResult').innerHTML = `
-        <div class="card">
-            <div class="summary-card">
-                <h4>🏢 ${employer}</h4>
-                <div class="summary-grid">
-                    <div class="summary-item"><div class="value">${days}</div><div class="label">أيام العمل</div></div>
-                    <div class="summary-item"><div class="value">${totalHours.toFixed(1)}</div><div class="label">إجمالي الساعات</div></div>
-                    <div class="summary-item"><div class="value">€${total.toFixed(2)}</div><div class="label">إجمالي الأجر</div></div>
-                    <div class="summary-item"><div class="value">${orgs}</div><div class="label">عدد المنظمين</div></div>
-                </div>
-            </div>
-        </div>
-    `;
+    document.getElementById('summaryResult').innerHTML = `<div class="card"><div class="summary-card"><h4>🏢 ${employer}</h4><div class="summary-grid"><div class="summary-item"><div class="value">${empEntries.length}</div><div class="label">أيام العمل</div></div><div class="summary-item"><div class="value">${totalHours.toFixed(1)}</div><div class="label">الساعات</div></div><div class="summary-item"><div class="value">€${total.toFixed(2)}</div><div class="label">الإجمالي</div></div><div class="summary-item"><div class="value">${orgs}</div><div class="label">المنظمين</div></div></div></div></div>`;
 }
 
 function exportAllData() {
-    const data = { organizers, workEntries, payments, settings, exportDate: new Date().toISOString(), version: '7.0' };
+    const data = { organizers, workEntries, payments, settings, exportDate: new Date().toISOString(), version: '7.3' };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob); const a = document.createElement('a');
     a.href = url; a.download = `GO_BACKUP_${new Date().toISOString().split('T')[0]}.json`; a.click(); URL.revokeObjectURL(url);
@@ -1537,7 +1679,7 @@ function importAllData(input) {
             if (data.payments) payments = data.payments;
             if (data.settings) { settings = { ...settings, ...data.settings }; saveSettings(); }
             saveData(); updateAllUI(); showToast('✅ تم الاستيراد');
-        } catch (err) { showToast('️ ملف غير صالح', true); }
+        } catch (err) { showToast('⚠️ ملف غير صالح', true); }
     };
     reader.readAsText(file); input.value = '';
 }
